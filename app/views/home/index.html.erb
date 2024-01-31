@@ -1,0 +1,38 @@
+<section class="vh-100" style="background-color: #f5f6f7;">
+	<div class="container py-5 h-100">
+		<div class="row d-flex justify-content-center align-items-center h-100">
+		  <div class="col-md-10 col-lg-8 col-xl-6">
+			<%= form_with url: '/search', data: { turbo_frame: "search-input" }, class: "form-inline" do |f| %>
+				<div class="row">
+					<div class="col-md-10">
+						<%= f.text_field :address, {value: params[:address], class: 'form-control'} %>
+					</div>
+					<div class="col-md-2">
+						<%= f.submit 'Search', class: 'btn btn-primary mb-2' %>
+					</div>
+  				</div>
+			<% end %>
+			<% if @temperature %>
+				<div class="card">
+			      <div class=" text-dark p-5">
+			        <h4 class="mb-0"><%= @temperature[:address] %></h4>
+			        <p class="display-2 my-3"><%= @temperature[:current][:temp_c] %> °C</p>
+
+			        <p class="mb-2">Feels Like: <strong><%= @temperature[:current][:feelslike_c] %> °C</strong> <span class="float-right">Avg: <strong><%= @temperature[:forecast][:avgtemp_c] %> °C</strong></span></p>
+			        <p class="mb-2">
+			        	Max: <strong><%= @temperature[:forecast][:maxtemp_c] %> °C</strong>
+			        	<span class="float-right">Min: <strong><%= @temperature[:forecast][:mintemp_c] %> °C</strong></span>
+			        </p>
+			        <p class="mb-2">
+			        	<h5><%= @temperature[:current][:condition]['text'] %> <%= image_tag "https:#{@temperature[:current][:condition]['icon']}" %></h5>
+	              		<h6 class="flex-grow-1">Last Updated: <%= @temperature[:current][:last_updated].strftime("%A %d %b %Y %I:%M %p") %></h6>
+	              	</p>
+			      </div>
+				</div>
+			<% elsif params[:address].present? %>
+				<label class="col-form-label col-form-label-sm" ><%= params[:address] %> Temperature not available</label>
+			<% end %>
+		  </div>
+		</div>
+	</div>
+</section>
