@@ -1,5 +1,4 @@
 # README
-
 # Configuration and Running the Application
 
 ### Ruby version
@@ -17,4 +16,3 @@
 
 ### Running the Test Suite
 4. Execute `rspec` to run the test suite.
-

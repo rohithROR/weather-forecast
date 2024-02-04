@@ -4,7 +4,6 @@ class ForecastService
   end
   def get_forecast
     response = Geocoder.search(@address).first
-    
     return nil if response.blank?
     key = "#{response.latitude}-#{response.longitude}"
     if (parsed_data = Rails.cache.read(key))
@@ -23,9 +22,8 @@ class ForecastService
 
   private
 
-  def get_weather_data(city)
-    weather_key = Rails.application.credentials.dig(:development, :weatherapi_key) || "7211b876e30b41a18e1174653243001"
-    api_url = URI.parse("https://api.weatherapi.com/v1/forecast.json?key=#{weather_key}&q=#{city}&days=1&aqi=no&alerts=no") rescue (return nil)
+  def get_weather_data(address)
+    api_url = URI.parse("https://api.weatherapi.com/v1/forecast.json?key=7211b876e30b41a18e1174653243001&q=#{address}&days=1&aqi=no&alerts=no") rescue (return nil)
     http = Net::HTTP.new(api_url.host, api_url.port)
     http.use_ssl = (api_url.scheme == 'https')
     request = Net::HTTP::Get.new(api_url.request_uri)
